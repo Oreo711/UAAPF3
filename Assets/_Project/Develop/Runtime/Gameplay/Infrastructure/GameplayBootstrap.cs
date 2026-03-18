@@ -16,8 +16,6 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
 {
 	public class GameplayBootstrap : SceneBootstrap
 	{
-		[SerializeField] private Gameplay _gameplay;
-
 		private DIContainer       _container;
 		private GameplayInputArgs _inputArgs;
 
@@ -35,19 +33,8 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
 
 		public override IEnumerator Initialize ()
 		{
-			ConfigProviderService configProvider = _container.Resolve<ConfigProviderService>();
-
-			GameplayConfig config = configProvider.GetConfig<GameplayConfig>();
-
-			_gameplay.Initialize(
-				_inputArgs.GameMode,
-				config,
-				_container.Resolve<SceneSwitcherService>(),
-				_container.Resolve<ICoroutinePerformer>(),
-				_container.Resolve<WalletService>(),
-				_container.Resolve<StatsService>(),
-				_container.Resolve<PlayerDataProvider>());
-			_gameplay.Setup();
+			GameplayProcess gameplayProcess = _container.Resolve<GameplayProcess>();
+			gameplayProcess.Setup(_inputArgs.GameMode);
 
 			yield break;
 		}

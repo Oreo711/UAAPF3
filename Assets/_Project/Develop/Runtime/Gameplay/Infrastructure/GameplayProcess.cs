@@ -15,24 +15,22 @@ using Random = UnityEngine.Random;
 
 namespace _Project.Develop.Runtime.Gameplay.Infrastructure
 {
-	public class Gameplay : MonoBehaviour
+	public class GameplayProcess
 	{
-		private GameplayConfig       _config;
-		private SceneSwitcherService _sceneSwitcher;
-		private ICoroutinePerformer  _coroutinePerformer;
-		private WalletService        _wallet;
-		private StatsService         _stats;
-		private PlayerDataProvider   _playerDataProvider;
+		public event Action HasSetup;
+
+		private readonly GameplayConfig       _config;
+		private readonly SceneSwitcherService _sceneSwitcher;
+		private readonly ICoroutinePerformer  _coroutinePerformer;
+		private readonly WalletService        _wallet;
+		private readonly StatsService         _stats;
+		private readonly PlayerDataProvider   _playerDataProvider;
 
 		private List<char> _chars;
 		private char[]     _sequence;
-		private bool       _isSetup;
 		private GameMode   _gameMode;
 
-		private readonly List<char> _input = new();
-
-		public void Initialize (
-			GameMode gameMode,
+		public GameplayProcess (
 			GameplayConfig config,
 			SceneSwitcherService sceneSwitcher,
 			ICoroutinePerformer coroutinePerformer,
@@ -41,7 +39,6 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
 			PlayerDataProvider playerDataProvider
 		)
 		{
-			_gameMode           = gameMode;
 			_config             = config;
 			_sceneSwitcher      = sceneSwitcher;
 			_coroutinePerformer = coroutinePerformer;
@@ -50,8 +47,12 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
 			_playerDataProvider = playerDataProvider;
 		}
 
-		public void Setup ()
+		public char[] Sequence => _sequence;
+
+		public void Setup (GameMode gameMode)
 		{
+			_gameMode = gameMode;
+
 			_chars = GetChars();
 
 			_sequence = new char[_config.SequenceLength];
@@ -62,9 +63,7 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
 				_sequence[i] = _chars[charIndex];
 			}
 
-			Debug.Log(new string(_sequence));
-
-			_isSetup = true;
+			HasSetup?.Invoke();
 		}
 
 		private List<char> GetChars ()
@@ -86,32 +85,14 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
 			return chars.ToList();
 		}
 
-		private void Update ()
+		public void ValidateInput (string input)
 		{
-			if (!_isSetup)
-				return;
-
-			if (!Input.anyKeyDown)
-				return;
-
-			string inputString = Input.inputString;
-
-			if (inputString.Length == 1 && _chars.Contains(inputString[0]))
-			{
-				_input.Add(inputString[0]);
-
-				Debug.Log(inputString[0].ToString());
-
-				if (_sequence.Length == _input.Count)
-				{
-					_coroutinePerformer.StartCoroutine(ValidateInput());
-				}
-			}
+			_coroutinePerformer.StartCoroutine(ProcessValidateInput(input));
 		}
 
-		private IEnumerator ValidateInput ()
+		private IEnumerator ProcessValidateInput (string input)
 		{
-			bool isValidInput = _sequence.SequenceEqual(_input);
+			bool isValidInput = _sequence.SequenceEqual(input);
 
 			if (isValidInput)
 			{
@@ -134,7 +115,6 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
 			}
 
 			_stats.IncrementLosses();
-
 			yield return _playerDataProvider.Save();
 
 			yield return _sceneSwitcher.SwitchToAsync(Scenes.Gameplay, new GameplayInputArgs(_gameMode));

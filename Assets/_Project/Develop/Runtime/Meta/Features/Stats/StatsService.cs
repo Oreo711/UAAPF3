@@ -7,8 +7,8 @@ namespace _Project.Develop.Runtime.Meta.Features.Stats
 {
 	public class StatsService : IDataReader<PlayerData>, IDataWriter<PlayerData>
 	{
-		private ReactiveVariable<int> _wins;
-		private ReactiveVariable<int> _losses;
+		private readonly ReactiveVariable<int> _wins;
+		private readonly ReactiveVariable<int> _losses;
 
 		public StatsService (PlayerDataProvider playerDataProvider)
 		{
@@ -21,7 +21,6 @@ namespace _Project.Develop.Runtime.Meta.Features.Stats
 
 		public ReactiveVariable<int> Wins   => _wins;
 		public ReactiveVariable<int> Losses => _losses;
-		public int ResetCost {get;} = 50;
 
 		public void IncrementWins ()
 		{

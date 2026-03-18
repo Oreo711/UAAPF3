@@ -14,7 +14,8 @@ namespace _Project.Develop.Runtime.UI.Core
         {
             {ViewIDs.CurrencyView, "UI/Wallet/CurrencyView" },
             {ViewIDs.MainMenuScreen, "UI/MainMenu/MainMenuScreenView" },
-            {ViewIDs.StatsView, "UI/Stats/StatsView"}
+            {ViewIDs.StatsView, "UI/Stats/StatsView"},
+            {ViewIDs.GameplayScreen, "UI/Gameplay/GameplayScreenView"}
         };
 
         public ViewsFactory(ResourcesAssetsLoader resourcesAssetsLoader)

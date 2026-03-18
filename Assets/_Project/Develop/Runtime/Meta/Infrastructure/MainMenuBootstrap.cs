@@ -54,33 +54,10 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
                 Debug.Log("Saved!");
             }
 
-            if (Input.GetKeyDown(KeyCode.X))
+            if (Input.GetKeyDown(KeyCode.L))
             {
                 _coroutinePerformer.StartCoroutine(_playerDataProvider.Load());
                 Debug.Log("Loaded!");
-            }
-
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                Debug.Log($"Current balance: {_walletService.GetCurrency(CurrencyTypes.Gold).Value.ToString()}");
-                Debug.Log($"Current wins: {_statsService.Wins.ToString()}; Current losses: {_statsService.Losses.ToString()}");
-            }
-
-            if (Input.GetKeyDown(KeyCode.Alpha0))
-            {
-                if (_walletService.Enough(CurrencyTypes.Gold, _statsService.ResetCost))
-                {
-                    _walletService.Spend(CurrencyTypes.Gold, _statsService.ResetCost);
-                    _statsService.Reset();
-
-                    _coroutinePerformer.StartCoroutine(_playerDataProvider.Save());
-
-                    Debug.Log("Stats have been reset.");
-                }
-                else
-                {
-                    Debug.Log("Insufficient gold");
-                }
             }
         }
     }

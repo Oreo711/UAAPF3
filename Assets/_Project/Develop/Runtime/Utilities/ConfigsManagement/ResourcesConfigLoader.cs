@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using _Project.Develop.Runtime.Configs.Meta;
 using _Project.Develop.Runtime.Configs.Meta.Wallet;
 using _Project.Develop.Runtime.Gameplay.Configs;
 using _Project.Develop.Runtime.Utilities.AssetsManagement;
@@ -17,7 +18,8 @@ namespace _Project.Develop.Runtime.Utilities.ConfigsManagement
         {
             {typeof(StartWalletConfig), "Configs/Meta/Wallet/StartWalletConfig" },
             {typeof(GameplayConfig), "Configs/Gameplay/GameplayConfig"},
-            {typeof(CurrencyIconsConfig), "Configs/Meta/Wallet/CurrencyIconsConfig"}
+            {typeof(CurrencyIconsConfig), "Configs/Meta/Wallet/CurrencyIconsConfig"},
+            {typeof(StatsResetCostConfig), "Configs/Meta/ResetCostConfig"},
         };
 
         public ResourcesConfigLoader(ResourcesAssetsLoader resources)

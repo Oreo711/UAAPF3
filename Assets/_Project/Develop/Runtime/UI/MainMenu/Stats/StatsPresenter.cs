@@ -8,11 +8,11 @@ namespace _Project.Develop.Runtime.UI.MainMenu.Stats
 {
 	public class StatsPresenter : IPresenter
 	{
-		private StatsService _statsService;
+		private readonly StatsService _statsService;
 
-		private RatioView _view;
+		private readonly RatioView _view;
 
-		private IDisposable[] _disposables = new IDisposable[2];
+		private readonly IDisposable[] _disposables = new IDisposable[2];
 
 		public StatsPresenter (RatioView view, StatsService statsService)
 		{

@@ -4,7 +4,7 @@
     {
         public const string CurrencyView    = nameof(CurrencyView);
         public const string MainMenuScreen  = nameof(MainMenuScreen);
-        public const string TestPopup       = nameof(TestPopup);
+        public const string LossPopup       = nameof(LossPopup);
         public const string StatsView       = nameof(StatsView);
         public const string GameplayScreen = nameof(GameplayScreen);
     }

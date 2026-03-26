@@ -91,6 +91,7 @@ namespace _Project.Develop.Runtime.UI.MainMenu
         {
             _screen.PlayButtonNumbersClicked -= HandlePlayButtonNumbersClicked;
             _screen.PlayButtonLettersClicked -= HandlePlayButtonLettersClicked;
+            _screen.StatsResetButtonClicked  -= HandleStatsResetButtonClicked;
 
             foreach (IPresenter presenter in _childPresenters)
                 presenter.Dispose();

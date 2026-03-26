@@ -4,7 +4,7 @@ using _Project.Develop.Runtime.Meta.Features.Stats;
 using _Project.Develop.Runtime.Meta.Features.Wallet;
 using _Project.Develop.Runtime.UI.CommonViews;
 using _Project.Develop.Runtime.UI.Core;
-using _Project.Develop.Runtime.UI.Core.TestPopup;
+using _Project.Develop.Runtime.UI.Core.LossPopup;
 using _Project.Develop.Runtime.UI.MainMenu.Stats;
 using _Project.Develop.Runtime.UI.Wallet;
 using _Project.Develop.Runtime.Utilities.ConfigsManagement;
@@ -50,13 +50,6 @@ namespace _Project.Develop.Runtime.UI
             return new StatsPresenter(
                 view,
                 _container.Resolve<StatsService>());
-        }
-
-        public TestPopupPresenter CreateTestPopupPresenter(TestPopupView view)
-        {
-            return new TestPopupPresenter(
-                view,
-                _container.Resolve<ICoroutinePerformer>());
         }
     }
 }

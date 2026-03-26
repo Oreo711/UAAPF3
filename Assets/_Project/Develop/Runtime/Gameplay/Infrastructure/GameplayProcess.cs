@@ -6,6 +6,7 @@ using _Project.Develop.Runtime.Gameplay.Configs;
 using _Project.Develop.Runtime.Meta;
 using _Project.Develop.Runtime.Meta.Features.Stats;
 using _Project.Develop.Runtime.Meta.Features.Wallet;
+using _Project.Develop.Runtime.UI.Gameplay;
 using _Project.Develop.Runtime.Utilities.CoroutineManagement;
 using _Project.Develop.Runtime.Utilities.DataManagement.DataProviders;
 using _Project.Develop.Runtime.Utilities.SceneManagement;
@@ -25,6 +26,7 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
 		private readonly WalletService        _wallet;
 		private readonly StatsService         _stats;
 		private readonly PlayerDataProvider   _playerDataProvider;
+		private readonly GameplayPopupService _popupService;
 
 		private List<char> _chars;
 		private char[]     _sequence;
@@ -36,7 +38,8 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
 			ICoroutinePerformer coroutinePerformer,
 			WalletService wallet,
 			StatsService stats,
-			PlayerDataProvider playerDataProvider
+			PlayerDataProvider playerDataProvider,
+			GameplayPopupService popupService
 		)
 		{
 			_config             = config;
@@ -45,9 +48,11 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
 			_wallet             = wallet;
 			_stats              = stats;
 			_playerDataProvider = playerDataProvider;
+			_popupService       = popupService;
 		}
 
 		public char[] Sequence => _sequence;
+		public GameMode GameMode => _gameMode;
 
 		public void Setup (GameMode gameMode)
 		{
@@ -117,7 +122,7 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
 			_stats.IncrementLosses();
 			yield return _playerDataProvider.Save();
 
-			yield return _sceneSwitcher.SwitchToAsync(Scenes.Gameplay, new GameplayInputArgs(_gameMode));
+			_popupService.OpenLossPopup();
 		}
 	}
 }
